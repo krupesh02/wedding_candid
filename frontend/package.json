@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^4.2.0",
-    "@astrojs/vercel": "^10.0.4",
+    "@astrojs/vercel": "^9.0.5",
     "@studio-freight/lenis": "^1.0.42",
     "astro": "^5.7.5",
     "framer-motion": "^12.38.0",
