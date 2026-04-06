@@ -1,0 +1,42 @@
+---
+import '../styles/globals.css';
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
+import SmoothScroll from '../components/SmoothScroll.jsx';
+import SplashScreen from '../components/SplashScreen.jsx';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = 'Wedding Candids | Destination Wedding Photography & Films',
+  description = 'Wedding Candids is a destination wedding photography and films studio capturing timeless love tales across the globe. Elegant, editorial, and deeply personal — where moments become timeless.'
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="wedding photography, destination wedding, wedding films, Indian wedding photographer, luxury wedding photographer, editorial photography" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <title>{title}</title>
+  </head>
+  <body>
+    <SmoothScroll client:load>
+      <SplashScreen client:only="react" />
+      <Header client:load />
+      <main class="page-nav-spacing">
+        <slot />
+      </main>
+      <Footer />
+    </SmoothScroll>
+  </body>
+</html>

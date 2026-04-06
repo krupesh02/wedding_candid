@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StoryDetailPage from '../../components/pages/StoryDetailPage.jsx';
+
+const { slug } = Astro.params;
+---
+
+<BaseLayout title={`${slug} | Reverie`}>
+  <StoryDetailPage slug={slug} client:load />
+</BaseLayout>
