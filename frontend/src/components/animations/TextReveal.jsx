@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
 import FadeUp from './FadeUp.jsx';
+import useSplash from '../../hooks/useSplash';
 
 export default function TextReveal({ children, delay = 0, stagger = 0.04, className = "", style = {} }) {
+  const isSplashFinished = useSplash();
+
   if (typeof children !== 'string') {
     return <FadeUp delay={delay} className={className}>{children}</FadeUp>;
   }

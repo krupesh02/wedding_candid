@@ -6,6 +6,7 @@ import FadeUp from '../animations/FadeUp.jsx';
 import ClipReveal from '../animations/ClipReveal.jsx';
 import TextReveal from '../animations/TextReveal.jsx';
 import ScrollScale from '../animations/ScrollScale.jsx';
+import useSplash from '../hooks/useSplash';
 
 // Static fallback data
 const staticPortfolios = [
@@ -117,6 +118,7 @@ const staticFilms = [
 
 /* ---- Hero with Parallax ---- */
 function HeroSection({ image }) {
+  const isSplashFinished = useSplash();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -138,8 +140,8 @@ function HeroSection({ image }) {
       <motion.div
         className="hero-content"
         initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 3.2, ease: [0.33, 1, 0.68, 1] }}
+        animate={isSplashFinished ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+        transition={{ duration: 1.2, ease: [0.33, 1, 0.68, 1] }}
       >
         <h1 className="hero-tagline">
           Capturing your love&apos;s legacy with an elegant, editorial, and <em>Indian</em> flair.

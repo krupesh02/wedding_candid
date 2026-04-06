@@ -40,8 +40,8 @@ export default function Header() {
     <motion.header
       className={`header-horizontal ${scrolled ? 'scrolled' : ''}`}
       initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 2.8, ease: [0.33, 1, 0.68, 1] }}
+      animate={isSplashFinished ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+      transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
     >
       <div className="header-container">
         {/* Left: Nav Links */}

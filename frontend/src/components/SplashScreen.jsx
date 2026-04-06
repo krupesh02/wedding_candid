@@ -11,6 +11,8 @@ export default function SplashScreen({ onFinish }) {
     
     if (hasSeenSplash) {
       if (onFinish) onFinish();
+      // Dispatch immediately as seen
+      window.dispatchEvent(new CustomEvent("splash:finished"));
       return;
     }
 
@@ -25,6 +27,8 @@ export default function SplashScreen({ onFinish }) {
 
       setTimeout(() => {
         if (onFinish) onFinish();
+        // Dispatch when fully faded out
+        window.dispatchEvent(new CustomEvent("splash:finished"));
       }, 1800);
     }, 4800);
 
