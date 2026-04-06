@@ -2,11 +2,26 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SplashScreen({ onFinish }) {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
+    // Check if user has already seen splash in this session
+    const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
+    
+    if (hasSeenSplash) {
+      if (onFinish) onFinish();
+      return;
+    }
+
+    // If not seen, show it
+    setIsVisible(true);
+    setShouldRender(true);
+
     const timer = setTimeout(() => {
       setIsVisible(false);
+      // Mark as seen
+      sessionStorage.setItem("hasSeenSplash", "true");
 
       setTimeout(() => {
         if (onFinish) onFinish();
@@ -15,6 +30,8 @@ export default function SplashScreen({ onFinish }) {
 
     return () => clearTimeout(timer);
   }, [onFinish]);
+
+  if (!shouldRender) return null;
 
   return (
     <AnimatePresence>
