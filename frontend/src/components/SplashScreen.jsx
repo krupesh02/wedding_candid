@@ -8,7 +8,7 @@ export default function SplashScreen({ onFinish }) {
   useEffect(() => {
     // Check if user has already seen splash in this session
     const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
-    
+
     if (hasSeenSplash) {
       if (onFinish) onFinish();
       // Dispatch immediately as seen
