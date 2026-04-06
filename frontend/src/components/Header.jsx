@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Logo from './Logo.jsx';
+import useSplash from '../hooks/useSplash';
 
 export default function Header() {
+  const isSplashFinished = useSplash();
   const [scrolled, setScrolled] = useState(false);
   const [pathname, setPathname] = useState('/');
   const [theme, setTheme] = useState('light');
