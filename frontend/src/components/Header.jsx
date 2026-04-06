@@ -58,7 +58,12 @@ export default function Header() {
         </nav>
 
         {/* Center: Logo */}
-        <a href="/" className="header-logo-center" style={{ textDecoration: 'none' }}>
+        <a 
+          href="/" 
+          className="header-logo-center" 
+          style={{ textDecoration: 'none' }}
+          onClick={() => sessionStorage.removeItem("hasSeenSplash")}
+        >
           <Logo />
         </a>
 
