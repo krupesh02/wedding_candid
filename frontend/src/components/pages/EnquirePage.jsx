@@ -31,7 +31,7 @@ export default function EnquirePage() {
 
   if (submitted) {
     return (
-      <div className="page-enter enquire-page" style={{ textAlign: 'center', paddingTop: '120px' }}>
+      <div className="page-enter enquire-page" style={{ textAlign: 'center', paddingTop: 'calc(var(--header-height) + 40px)' }}>
         <p className="section-label">Thank You</p>
         <h2 className="section-title" style={{ marginBottom: '20px' }}>We&apos;ll Be In <em>Touch</em></h2>
         <p className="section-subtitle" style={{ margin: '0 auto' }}>

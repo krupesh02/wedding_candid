@@ -22,7 +22,7 @@ export default function FilmsPage() {
   const filtered = filter === 'all' ? films : films.filter(f => f.category === filter);
 
   return (
-    <div className="page-enter" style={{ marginTop: 'var(--header-height)' }}>
+    <div className="page-enter" style={{ paddingTop: 'calc(var(--header-height) + 40px)' }}>
       <div className="section" style={{ textAlign: 'center' }}>
         <p className="section-label">Cinematic Stories</p>
         <h1 className="section-title">Our <em>Films</em></h1>

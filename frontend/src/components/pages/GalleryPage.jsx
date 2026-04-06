@@ -38,7 +38,7 @@ export default function GalleryPage() {
   const col3 = ALL_PHOTOS.filter((_, i) => i % 3 === 2);
 
   return (
-    <div className="page-enter" style={{ minHeight: '100vh', marginTop: 'var(--header-height)' }}>
+    <div className="page-enter" style={{ minHeight: '100vh', paddingTop: 'calc(var(--header-height) + 40px)' }}>
       
       {/* Intro Section */}
       <div className="section" style={{ textAlign: 'center', paddingBottom: '40px' }}>

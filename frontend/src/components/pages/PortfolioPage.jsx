@@ -38,7 +38,7 @@ export default function PortfolioPage() {
   }, [filtered]);
 
   return (
-    <div className="portfolio-page-detroit" style={{ paddingTop: 'calc(var(--header-height) + 100px)', minHeight: '200vh' }}>
+    <div className="portfolio-page-detroit" style={{ paddingTop: 'calc(var(--header-height) + 40px)', minHeight: '200vh' }}>
       
       <div className="section" style={{ textAlign: 'center', marginBottom: '100px' }}>
         <p className="sub-ultra-title">Curated Stories</p>
