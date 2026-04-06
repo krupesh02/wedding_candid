@@ -6,7 +6,7 @@ import FadeUp from '../animations/FadeUp.jsx';
 import ClipReveal from '../animations/ClipReveal.jsx';
 import TextReveal from '../animations/TextReveal.jsx';
 import ScrollScale from '../animations/ScrollScale.jsx';
-import useSplash from '../hooks/useSplash';
+import useSplash from '../../hooks/useSplash';
 
 // Static fallback data
 const staticPortfolios = [
