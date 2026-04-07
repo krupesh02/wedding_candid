@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import MarqueeText from '../MarqueeText.jsx';
 import TestimonialSlider from '../TestimonialSlider.jsx';
 import FadeUp from '../animations/FadeUp.jsx';
 import ClipReveal from '../animations/ClipReveal.jsx';
@@ -270,14 +269,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ===== Marquee ===== */}
-      <MarqueeText texts={[
-        'Smile-Searchers',
-        'Light-Catchers',
-        'Love-Whisperers',
-        'Story-Spinners',
-        'Colour-Painters'
-      ]} />
 
       {/* ===== Films Teaser ===== */}
       <div className="films-teaser">

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import MarqueeText from '../MarqueeText.jsx';
 
 export default function EnquirePage() {
   const [form, setForm] = useState({
@@ -102,7 +101,6 @@ export default function EnquirePage() {
         </div>
       </div>
 
-      <MarqueeText texts={["Let's Connect", 'Frame Your Forever', 'Your Love Story Awaits']} />
     </div>
   );
 }

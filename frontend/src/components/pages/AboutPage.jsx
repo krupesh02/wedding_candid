@@ -1,4 +1,3 @@
-import MarqueeText from '../MarqueeText.jsx';
 
 export default function AboutPage() {
   return (
@@ -14,7 +13,6 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <MarqueeText texts={['Our Story', 'Our Vision', 'Our Passion', 'Our Craft']} />
 
       <div className="about-content">
         <div className="about-image">
@@ -72,7 +70,6 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <MarqueeText texts={['Capturing Love In Every Shade', 'Specialising In Editorial Images', 'Narrative Films']} />
     </div>
   );
 }

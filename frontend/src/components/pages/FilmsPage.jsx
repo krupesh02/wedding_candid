@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import MarqueeText from '../MarqueeText.jsx';
 
 const staticFilms = [
   { slug: 'love-in-second-innings', title: 'Love In Second Innings', couple_names: 'Deepal & Nishant', location: 'Mumbai', category: 'classic', excerpt: 'Second marriage, for many, is still a taboo. This story illustrates why it shouldn\'t be.', story: 'It\'s a treatise on how the past doesn\'t come in the way of love and respect. It\'s a heroic tale of victory over stereotypes and archaic customs. Every moment that we spent with Deepal and Nishant convinced us that life can be made beautiful.', cover_image: '/images/WC__7232.jpg', video_url: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
@@ -78,7 +77,6 @@ export default function FilmsPage() {
         ))}
       </div>
 
-      <MarqueeText texts={['Where Motion Meets Emotion', 'Fine Art Documentary', 'Wedding Films', 'Cinematic Stories']} />
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import MarqueeText from '../MarqueeText.jsx';
 
 const staticTestimonials = [
   { couple_names: 'Krishna & Omar', location: 'Jaipur', review: 'Aside from being absurdly good photographers, the team at Reverie quickly became our friends.', image: '/images/WC__7232.jpg' },
@@ -30,7 +29,6 @@ export default function TestimonialsPage() {
         <div className="section-divider" style={{ margin: '20px auto' }}></div>
       </div>
 
-      <MarqueeText texts={['Your Love Is Our Love', 'Frame Your Forever', 'Capturing Love In Every Shade']} />
 
       <div className="testimonials-section" style={{ background: 'transparent' }}>
         <div className="testimonial-slider">

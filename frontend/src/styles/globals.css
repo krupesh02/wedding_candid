@@ -601,55 +601,6 @@ i {
 }
 
 /* =================================================================
-   MARQUEE
-   ================================================================= */
-.marquee-section {
-  overflow: hidden;
-  padding: 35px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-primary);
-}
-
-.marquee-track {
-  display: flex;
-  white-space: nowrap;
-  animation: marqueeScroll 35s linear infinite;
-}
-
-.marquee-text {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-serif);
-  font-size: clamp(1.1rem, 2.2vw, 1.8rem);
-  font-weight: 300;
-  font-style: italic;
-  color: var(--text-muted);
-  letter-spacing: 0.02em;
-  flex-shrink: 0;
-}
-
-.marquee-text .separator {
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin: 0 28px;
-  opacity: 0.4;
-  vertical-align: middle;
-}
-
-@keyframes marqueeScroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-33.33%);
-  }
-}
-
-/* =================================================================
    SECTIONS — Universal
    ================================================================= */
 .section {
@@ -1622,11 +1573,6 @@ i {
   }
 }
 
-@media (max-width: 480px) {
-  .marquee-text .separator {
-    margin: 0 14px;
-  }
-}
 
 /* =================================================================
    UTILITY — Hide default cursor on desktop
