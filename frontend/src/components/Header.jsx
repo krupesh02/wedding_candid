@@ -53,6 +53,7 @@ export default function Header() {
               key={link.name}
               href={link.href}
               className={`nav-link-horizontal ${pathname === link.href ? 'active' : ''}`}
+              onClick={() => sessionStorage.setItem('skipNextSplash', 'true')}
             >
               {link.name}
             </a>
@@ -60,11 +61,11 @@ export default function Header() {
         </nav>
 
         {/* Center: Logo */}
-        <a 
-          href="/" 
-          className="header-logo-center" 
+        <a
+          href="/"
+          className="header-logo-center"
           style={{ textDecoration: 'none' }}
-          onClick={() => sessionStorage.removeItem("hasSeenSplash")}
+          onClick={() => sessionStorage.setItem('skipNextSplash', 'true')}
         >
           <Logo />
         </a>

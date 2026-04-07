@@ -51,8 +51,11 @@ export default function TextReveal({ children, delay = 0, stagger = 0.04, classN
           key={index}
           style={{
             display: "inline-block",
-            marginRight: "0.3em",
+            marginRight: "0.25em",
             transformOrigin: "bottom center",
+            willChange: "transform, opacity",
+            transformStyle: "preserve-3d",
+            backfaceVisibility: "hidden"
           }}
         >
           {word}

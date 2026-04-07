@@ -65,9 +65,9 @@ export default function GalleryPage() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // Smooth springs for scroll delta interaction
-  const springX = useSpring(x, { stiffness: 100, damping: 30, restDelta: 0.001 });
-  const springY = useSpring(y, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  // High-end weighted springs for a more "lush" panning feel
+  const springX = useSpring(x, { stiffness: 60, damping: 25, restDelta: 0.001 });
+  const springY = useSpring(y, { stiffness: 60, damping: 25, restDelta: 0.001 });
 
   useEffect(() => {
     // Initial center position logic
@@ -125,8 +125,8 @@ export default function GalleryPage() {
       {/* The Immersive Draggable Canvas */}
       <motion.div
         drag
-        dragElastic={0.05}
-        dragTransition={{ power: 0.2, timeConstant: 250 }} // Weighted glide
+        dragElastic={0.06}
+        dragTransition={{ power: 0.3, timeConstant: 300 }} // Refined cinematic glide
         style={{
           width: `${CANVAS_SIZE}vw`,
           height: `${CANVAS_SIZE}vh`,
@@ -134,7 +134,8 @@ export default function GalleryPage() {
           x: springX,
           y: springY,
           cursor: 'grab',
-          touchAction: 'none'
+          touchAction: 'none',
+          willChange: 'transform' // Force GPU for the large floor
         }}
         whileTap={{ cursor: 'grabbing' }}
       >
@@ -210,17 +211,22 @@ function ImmersivePhoto({ photo, onClick, index }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.2, rotate: photo.rotation * 2 }}
-      animate={{ opacity: 1, scale: 1, rotate: 0 }}
-      transition={{ duration: 1.5, delay: index * 0.02, ease: [0.33, 1, 0.68, 1] }}
+      initial={{ opacity: 0, scale: 0, y: 100, rotate: photo.rotation * 3 }}
+      animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+      transition={{ 
+        duration: 2, 
+        delay: index * 0.015, 
+        ease: [0.16, 1, 0.3, 1] // Ease out quint
+      }}
       style={{
         position: 'absolute',
         top: `${photo.y}%`,
         left: `${photo.x}%`,
         width: `${12 * photo.scale}vw`,
         zIndex: Math.floor(photo.scale * 10),
-        perspective: '1000px',
-        transformStyle: 'preserve-3d'
+        perspective: '1200px',
+        transformStyle: 'preserve-3d',
+        willChange: 'transform, opacity' // GPU acceleration for each tile
       }}
     >
       <motion.div

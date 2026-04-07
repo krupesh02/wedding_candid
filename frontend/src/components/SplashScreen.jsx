@@ -6,24 +6,28 @@ export default function SplashScreen({ onFinish }) {
   const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
-    // Check if user has already seen splash in this session
-    const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
+    // Check if we should skip the splash ONE TIME (e.g. logo/nav click)
+    const shouldSkipOnce = sessionStorage.getItem("skipNextSplash");
 
-    if (hasSeenSplash) {
+    if (shouldSkipOnce) {
+      // Clear the temporary one-time skip immediately so that NEXT refresh shows splash
+      sessionStorage.removeItem("skipNextSplash");
+      
+      // Set a global flag so late-mounting components can still know we skipped
+      window.__SPLASH_SKIPPED__ = true;
+      
       if (onFinish) onFinish();
-      // Dispatch immediately as seen
+      // Dispatch immediately
       window.dispatchEvent(new CustomEvent("splash:finished"));
       return;
     }
 
-    // If not seen, show it
+    // Show splash on every mount
     setIsVisible(true);
     setShouldRender(true);
 
     const timer = setTimeout(() => {
       setIsVisible(false);
-      // Mark as seen
-      sessionStorage.setItem("hasSeenSplash", "true");
 
       setTimeout(() => {
         if (onFinish) onFinish();
