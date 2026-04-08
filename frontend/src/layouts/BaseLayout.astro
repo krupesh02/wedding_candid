@@ -8,11 +8,13 @@ import SplashScreen from '../components/SplashScreen.jsx';
 interface Props {
   title?: string;
   description?: string;
+  showFooter?: boolean;
 }
 
 const { 
   title = 'Wedding Candids | Destination Wedding Photography & Films',
-  description = 'Wedding Candids is a destination wedding photography and films studio capturing timeless love tales across the globe. Elegant, editorial, and deeply personal — where moments become timeless.'
+  description = 'Wedding Candids is a destination wedding photography and films studio capturing timeless love tales across the globe. Elegant, editorial, and deeply personal — where moments become timeless.',
+  showFooter = true
 } = Astro.props;
 ---
 
@@ -36,7 +38,7 @@ const {
       <main class="page-nav-spacing">
         <slot />
       </main>
-      <Footer />
+      {showFooter && <Footer />}
     </SmoothScroll>
   </body>
 </html>
