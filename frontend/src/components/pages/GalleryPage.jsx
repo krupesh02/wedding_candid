@@ -1,7 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
-
-
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 // Configuration for the "Infinite Floor"
 const CANVAS_SIZE = 300; // 300% of viewport
@@ -37,7 +35,6 @@ const generateScatteredPhotos = () => {
       const i = r * cols + c;
       const src = ALL_PHOTOS[i % ALL_PHOTOS.length];
       
-      // Position within the grid cell with random "jitter"
       const x = 5 + (c * cellWidth) + (Math.random() * cellWidth * 0.6);
       const y = 5 + (r * cellHeight) + (Math.random() * cellHeight * 0.6);
 
@@ -55,12 +52,12 @@ const generateScatteredPhotos = () => {
   return scattered;
 };
 
-
 const SCATTERED_PHOTOS = generateScatteredPhotos();
 
 export default function GalleryPage() {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  
+  const [isMobile, setIsMobile] = useState(false);
+
   // Canvas motion values for drag + scroll-to-pan
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -70,14 +67,17 @@ export default function GalleryPage() {
   const springY = useSpring(y, { stiffness: 60, damping: 25, restDelta: 0.001 });
 
   useEffect(() => {
-    // Initial center position logic
-    // A 300vw canvas, so center starts at -100vw, -100vh
+    // Detect mobile/touch
+    const mobile = 'ontouchstart' in window || window.innerWidth <= 768;
+    setIsMobile(mobile);
+
+    // Initial center position
     x.set(-window.innerWidth);
     y.set(-window.innerHeight);
 
-    // Scroll wheel to pan logic
+    // Scroll wheel to pan (desktop only)
     const handleWheel = (e) => {
-      if (selectedPhoto) return; // Disable panning if lightbox is open
+      if (selectedPhoto) return;
       x.set(x.get() - e.deltaX);
       y.set(y.get() - e.deltaY);
     };
@@ -87,46 +87,45 @@ export default function GalleryPage() {
   }, [selectedPhoto]);
 
   return (
-    <div 
-      className="page-enter" 
-      style={{ 
-        height: '100vh', 
-        width: '100vw', 
-        overflow: 'hidden', 
+    <div
+      className="page-enter"
+      style={{
+        height: '100vh',
+        width: '100vw',
+        overflow: 'hidden',
         position: 'relative',
         background: 'var(--bg-primary)',
-        cursor: 'crosshair'
+        cursor: 'crosshair',
       }}
     >
-      {/* Heads-Up Display Removed per User Request */}
-
-
-
       {/* Floating Instructions */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.5 }}
         transition={{ delay: 2 }}
-        style={{ 
-          position: 'fixed', 
-          bottom: '40px', 
-          left: '50%', 
-          transform: 'translateX(-50%)', 
-          zIndex: 10, 
-          fontSize: '11px', 
-          textTransform: 'uppercase', 
+        style={{
+          position: 'fixed',
+          bottom: '40px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 10,
+          fontSize: '11px',
+          textTransform: 'uppercase',
           letterSpacing: '0.3em',
-          pointerEvents: 'none'
+          pointerEvents: 'none',
+          whiteSpace: 'nowrap',
+          textAlign: 'center',
+          color: 'var(--text-muted)',
         }}
       >
-        Click & Drag or Scroll to Explore Floor
+        {isMobile ? 'Touch & Drag to Explore' : 'Click & Drag or Scroll to Explore'}
       </motion.div>
 
       {/* The Immersive Draggable Canvas */}
       <motion.div
         drag
         dragElastic={0.06}
-        dragTransition={{ power: 0.3, timeConstant: 300 }} // Refined cinematic glide
+        dragTransition={{ power: 0.3, timeConstant: 300 }}
         style={{
           width: `${CANVAS_SIZE}vw`,
           height: `${CANVAS_SIZE}vh`,
@@ -135,16 +134,17 @@ export default function GalleryPage() {
           y: springY,
           cursor: 'grab',
           touchAction: 'none',
-          willChange: 'transform' // Force GPU for the large floor
+          willChange: 'transform',
         }}
         whileTap={{ cursor: 'grabbing' }}
       >
         {SCATTERED_PHOTOS.map((photo, i) => (
-          <ImmersivePhoto 
-            key={photo.id} 
-            photo={photo} 
-            index={i} 
-            onClick={() => setSelectedPhoto(photo.src)} 
+          <ImmersivePhoto
+            key={photo.id}
+            photo={photo}
+            index={i}
+            onClick={() => setSelectedPhoto(photo.src)}
+            isMobile={isMobile}
           />
         ))}
       </motion.div>
@@ -160,9 +160,13 @@ export default function GalleryPage() {
             style={{
               position: 'fixed',
               top: 0, left: 0, width: '100vw', height: '100vh',
-              zIndex: 1000, background: 'rgba(245, 241, 234, 0.98)', // Matches beige background
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'zoom-out'
+              zIndex: 1000,
+              background: 'rgba(245, 241, 234, 0.98)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'zoom-out',
+              padding: isMobile ? '16px' : '30px',
             }}
           >
             <motion.img
@@ -173,12 +177,25 @@ export default function GalleryPage() {
               src={selectedPhoto}
               alt="Fullscreen View"
               style={{
-                maxWidth: '85vw',
-                maxHeight: '85vh',
+                maxWidth: isMobile ? '95vw' : '85vw',
+                maxHeight: isMobile ? '82vh' : '85vh',
                 objectFit: 'contain',
-                boxShadow: '0 40px 100px rgba(0,0,0,0.1)'
+                boxShadow: '0 40px 100px rgba(0,0,0,0.1)',
               }}
             />
+            {/* Close hint */}
+            <div style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              fontSize: '10px',
+              letterSpacing: '2px',
+              textTransform: 'uppercase',
+              color: 'var(--text-muted)',
+              opacity: 0.7,
+            }}>
+              {isMobile ? 'Tap to close' : 'Click to close'}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -187,62 +204,67 @@ export default function GalleryPage() {
 }
 
 // Draggable 3D Item Component
-function ImmersivePhoto({ photo, onClick, index }) {
+function ImmersivePhoto({ photo, onClick, index, isMobile }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const containerRef = useRef(null);
 
-  // Loading Fallback: In case the image is very large or cached
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 3000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Individual Tilt Logic
+  // Individual Tilt Logic (desktop only)
   const tx = useMotionValue(0);
   const ty = useMotionValue(0);
   const rotateX = useSpring(useTransform(ty, [-0.5, 0.5], [15, -15]), { stiffness: 150, damping: 25 });
   const rotateY = useSpring(useTransform(tx, [-0.5, 0.5], [-15, 15]), { stiffness: 150, damping: 25 });
 
   function handleMouse(e) {
+    if (isMobile) return;
     const rect = e.currentTarget.getBoundingClientRect();
     tx.set((e.clientX - (rect.left + rect.width / 2)) / rect.width);
     ty.set((e.clientY - (rect.top + rect.height / 2)) / rect.height);
   }
 
+  // On mobile, make photos bigger so they are actually visible
+  const photoWidth = isMobile
+    ? `${Math.max(22, 18 * photo.scale)}vw`
+    : `${12 * photo.scale}vw`;
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0, y: 100, rotate: photo.rotation * 3 }}
       animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
-      transition={{ 
-        duration: 2, 
-        delay: index * 0.015, 
-        ease: [0.16, 1, 0.3, 1] // Ease out quint
+      transition={{
+        duration: 2,
+        delay: index * 0.015,
+        ease: [0.16, 1, 0.3, 1],
       }}
       style={{
         position: 'absolute',
         top: `${photo.y}%`,
         left: `${photo.x}%`,
-        width: `${12 * photo.scale}vw`,
+        width: photoWidth,
         zIndex: Math.floor(photo.scale * 10),
         perspective: '1200px',
         transformStyle: 'preserve-3d',
-        willChange: 'transform, opacity' // GPU acceleration for each tile
+        willChange: 'transform, opacity',
       }}
     >
       <motion.div
+        ref={containerRef}
         onMouseMove={handleMouse}
-        onMouseLeave={() => { tx.set(0); ty.set(0); }}
+        onMouseLeave={() => { if (!isMobile) { tx.set(0); ty.set(0); } }}
         onClick={onClick}
-        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+        style={{ rotateX: isMobile ? 0 : rotateX, rotateY: isMobile ? 0 : rotateY, transformStyle: 'preserve-3d' }}
       >
         <motion.div
-          style={{ 
-            overflow: 'hidden', 
-            borderRadius: '16px',
+          style={{
+            overflow: 'hidden',
+            borderRadius: isMobile ? '10px' : '16px',
             background: 'var(--bg-secondary)',
             boxShadow: '0 20px 50px rgba(43, 43, 43, 0.1)',
             cursor: 'zoom-in',
-            imageRendering: 'crisp-edges'
           }}
           whileHover={{ scale: 1.05, boxShadow: '0 30px 80px rgba(197, 164, 109, 0.2)' }}
         >
@@ -250,23 +272,22 @@ function ImmersivePhoto({ photo, onClick, index }) {
             <div style={{ position: 'absolute', inset: 0, filter: 'blur(10px)', background: 'var(--bg-secondary)' }} />
           )}
 
-          <motion.img 
-            src={photo.src} 
-            alt="Gallery Moment" 
+          <motion.img
+            src={photo.src}
+            alt="Gallery Moment"
             onLoad={() => setIsLoaded(true)}
-            style={{ 
-              width: '100%', height: 'auto', display: 'block',
+            style={{
+              width: '100%',
+              height: 'auto',
+              display: 'block',
               filter: isLoaded ? 'none' : 'blur(15px)',
               transition: 'filter 1.2s ease',
-              rotate: photo.rotation, // Random card rotation for that "scattered floor" feel
-              transform: 'translateZ(20px)'
+              rotate: photo.rotation,
+              transform: 'translateZ(20px)',
             }}
           />
-
         </motion.div>
       </motion.div>
     </motion.div>
   );
 }
-
-

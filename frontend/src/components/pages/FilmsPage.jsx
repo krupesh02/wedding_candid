@@ -43,7 +43,7 @@ export default function FilmsPage() {
         </div>
       </div>
 
-      <div className="films-grid" style={{ padding: '0 40px 80px', maxWidth: 'var(--container-max)', margin: '0 auto' }}>
+      <div className="films-grid" style={{ padding: 'clamp(0px, 3vw, 40px) clamp(16px, 4vw, 40px) 80px', maxWidth: 'var(--container-max)', margin: '0 auto' }}>
         {filtered.map((film, i) => (
           <div
             key={i}
