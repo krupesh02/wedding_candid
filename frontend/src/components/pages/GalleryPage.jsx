@@ -186,7 +186,7 @@ export default function GalleryPage() {
             {/* Close hint */}
             <div style={{
               position: 'absolute',
-              top: '20px',
+              top: isMobile ? '80px' : '20px',
               right: '20px',
               fontSize: '10px',
               letterSpacing: '2px',
